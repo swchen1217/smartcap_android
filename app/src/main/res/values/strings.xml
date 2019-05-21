@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">iLaurel App</string>
-    <string name="set_lbl">設定</string>
-    <string name="exit_lbl">離開</string>
-    <string name="server_lbl">設定Server IP</string>
-    <string name="device_lbl">設定設備名稱</string>
-    <string name="user_lbl">設定使用者</string>
-</resources>
