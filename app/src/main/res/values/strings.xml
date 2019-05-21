@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Smartcap</string>
+    <string name="set_lbl">設定</string>
+    <string name="exit_lbl">離開</string>
+    <string name="server_lbl">設定Server IP</string>
+    <string name="device_lbl">設定設備名稱</string>
+    <string name="user_lbl">設定使用者</string>
+    <string name="btn1">連接iLaurel</string>
+    <string name="btn2">斷開iLaurel</string>
+    <string name="btn3">查詢使用紀錄</string>
 </resources>
