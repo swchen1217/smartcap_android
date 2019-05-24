@@ -28,6 +28,10 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     //private Button openBT,findBT,connectBT,disconnectBT;
+    int tmp_ngsecond=0;
+    private long ng;
+    private float ng_sec;
+    private long ng_sec2;
     private long starttime;
     private int ngcount;
     private TextView starttimelbl;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     if(deviceStatus.equals("0")) {
                         ngcount++;
                         ngcountlbl.setText("警告次數："+ngcount);
+                        ngsecond(1);
                     }
                     status.setText("狀態：你是不是低頭了呢！");
                     deviceStatus = "1";
@@ -59,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 case -1:
                     toneG.stopTone();
                     status.setText("狀態：你的姿勢很正確哦！");
+                    if(deviceStatus.equals("1")){
+                        ngsecond(0);
+                    }
                     deviceStatus = "0";
             }
             //statusToServer();
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             long s = p%60;
             long h = m/60;
             m = m%60;
-            starttimelbl.setText("練習時間："+h+"時"+m+"分"+s+"秒");
+            starttimelbl.setText("練習時間："+h+"時"+m+"分"+s+"秒\nngs:"+ng_sec/1000);
             super.handleMessage(msg);
         }
     };
@@ -290,5 +298,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
+    }
+
+    public void ngsecond(int input){
+        Log.d("debug","ngs_input:"+input);
+        //Log.d("debug","ngs_tmp:"+tmp_ngsecond);
+        if(input==1){
+            Date now = new Date();
+            ng = now.getTime();
+        }else{
+            new Thread()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        Date now = new Date();
+                        ng_sec = now.getTime()-ng;
+                        Log.d("debug","ngs:"+ng_sec);
+                        URL url = new URL("http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?ngs="+ng_sec);
+                        url.openStream();
+                    }
+                    catch(Exception e)
+                    {
+                    }
+                }
+            }.start();
+        }
     }
 }
