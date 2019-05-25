@@ -1,5 +1,8 @@
 package com.example.smartcap;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -25,6 +28,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+@RequiresApi(api = Build.VERSION_CODES.ECLAIR)
 public class MainActivity extends AppCompatActivity {
 
     //private Button openBT,findBT,connectBT,disconnectBT;
@@ -99,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     public void connectBTClick(View v)
     {
         Set<BluetoothDevice> pairedDevices = myBT.getBondedDevices();
@@ -157,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     void openBT() throws Exception
     {
         UUID uuid=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -179,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
+        @TargetApi(Build.VERSION_CODES.ECLAIR)
+        @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
