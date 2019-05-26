@@ -24,19 +24,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
-@RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+//RequiresApi(api = Build.VERSION_CODES.ECLAIR)
 public class MainActivity extends AppCompatActivity {
 
     //private Button openBT,findBT,connectBT,disconnectBT;
     int tmp_ngsecond=0;
     private long ng;
     private float ng_sec;
-    private long ng_sec2;
     private long starttime;
+    private String starttime2;
     private int ngcount;
     private TextView starttimelbl;
     private TextView ngcountlbl;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+    //@RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     public void connectBTClick(View v)
     {
         Set<BluetoothDevice> pairedDevices = myBT.getBondedDevices();
@@ -127,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
                         ngcount = 0;
                         Date now = new Date();
                         starttime = now.getTime();
+                        SimpleDateFormat sdf=new SimpleDateFormat();
+                        sdf.applyPattern("yyyy-MM-dd*HH:mm:ss");
+                        starttime2=sdf.format(now);
+                        Log.d("debug","Time:"+starttime2);
                         Log.d("debug","BTConnect paired success:"+device.getName());
                     }catch(Exception e){
                         s = "藍牙錯誤，請重開iLaurel及設定手機的藍牙連接";
@@ -162,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+    //@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    //@RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     void openBT() throws Exception
     {
         UUID uuid=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -186,8 +191,8 @@ public class MainActivity extends AppCompatActivity {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
-        @TargetApi(Build.VERSION_CODES.ECLAIR)
-        @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+        //@TargetApi(Build.VERSION_CODES.ECLAIR)
+        //@RequiresApi(api = Build.VERSION_CODES.ECLAIR)
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -278,7 +283,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Date now = new Date();
                     long use = (now.getTime() - starttime)/1000;
-                    URL url = new URL("http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?user="+PrefsActivity.getUser(MainActivity.this)+"&usetime="+use+"&ngtime="+ngcount);
+                    Log.d("debug","url(m):http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?user="+PrefsActivity.getUser(MainActivity.this)+"&starttime="+starttime2+"&usetime="+use+"&ngtimes="+ngcount);
+                    URL url = new URL("http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?user="+PrefsActivity.getUser(MainActivity.this)+"&starttime="+starttime2+"&usetime="+use+"&ngtimes="+ngcount);
                     url.openStream();
                 }
                 catch(Exception e)
@@ -324,8 +330,12 @@ public class MainActivity extends AppCompatActivity {
                     {
                         Date now = new Date();
                         ng_sec = now.getTime()-ng;
+                        SimpleDateFormat sdf2=new SimpleDateFormat();
+                        sdf2.applyPattern("yyyy-MM-dd*HH:mm:ss");
                         Log.d("debug","ngs:"+ng_sec);
-                        URL url = new URL("http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?ngs="+ng_sec);
+                        Log.d("debug","ngt:"+sdf2.format(now));
+                        Log.d("debug","url(s):http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?user="+PrefsActivity.getUser(MainActivity.this)+"&starttime="+starttime2+"&ngtime="+sdf2.format(now)+"&ngsecond="+ng_sec);
+                        URL url = new URL("http://"+PrefsActivity.getServer(MainActivity.this)+"/smartcap/index.php?user="+PrefsActivity.getUser(MainActivity.this)+"&starttime="+starttime2+"&ngtime="+sdf2.format(now)+"&ngsecond="+ng_sec);
                         url.openStream();
                     }
                     catch(Exception e)
