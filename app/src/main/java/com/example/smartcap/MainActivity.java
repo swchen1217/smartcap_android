@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             deviceName.setText("");
             starttimelbl.setText("");
             ngcountlbl.setText("");
+            ng_sec=0;
             logToServer();
         }catch(Exception e)
         {
